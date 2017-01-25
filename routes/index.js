@@ -17,6 +17,9 @@ router.route('/prices').get((req, res) => {
     })
     .then(prices => {
       res.json(prices.map(res => res[0]));
+    })
+    .catch(er => {
+      res.send(er);
     });
 });
 
