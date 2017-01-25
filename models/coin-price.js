@@ -2,8 +2,9 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const coinPriceSchema = new Schema({
-  price_euro: Number,
-  coin: String,
+  price: Number,
+  currency: String,
+  type: String,
   date: Date,
 })
 
