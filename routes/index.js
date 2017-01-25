@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 router.route('/prices').get((req, res) => {
-  CoinPrice.find({}, 'price_euro date')
+  CoinPrice.find({}, 'type price currency date')
     .limit(50)
     .sort('-date')
     .exec((err, prices) => {
