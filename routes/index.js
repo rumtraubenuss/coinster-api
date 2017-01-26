@@ -5,7 +5,7 @@ const router = express.Router();
 router.route('/prices').get((req, res) => {
   CoinPrice.distinct('type')
     .then(types => {
-      const promises = types.map(type => {
+      const promises = types.sort().map(type => {
         return (
           CoinPrice.find({ type }, 'type price currency date')
             .limit(1)
