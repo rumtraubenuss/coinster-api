@@ -8,6 +8,7 @@ const app = express();
 const { DB_URI } = process.env;
 
 mongoose.connect(DB_URI);
+mongoose.Promise = global.Promise;
 
 app.use(cors());
 app.use(bodyParser.json());

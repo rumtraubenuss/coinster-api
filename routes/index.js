@@ -1,13 +1,15 @@
 const CoinPrice = require('../models/coin-price');
 const express = require('express');
 const router = express.Router();
+const moment = require('moment');
 
 router.route('/prices').get( async (req, res) => {
   try {
+    const date = !!req.query.offset ? moment().subtract(1, 'day') : new Date();
     const types = await CoinPrice.distinct('type')
     const promises = types.sort().map(type => {
       return (
-        CoinPrice.find({ type }, 'type price currency date')
+        CoinPrice.find({ type, date: { $lt: date } }, 'type price currency date')
         .limit(1)
         .sort('-date')
         .exec()
