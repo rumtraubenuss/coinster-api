@@ -5,18 +5,17 @@ const moment = require('moment');
 
 router.route('/prices').get( async (req, res) => {
   try {
-    const date = !!req.query.offset ? moment().subtract(1, 'day') : new Date();
+    const yesterday = moment().subtract(1, 'day');
     const types = await CoinPrice.distinct('type')
     const promises = types.sort().map(type => {
       return (
-        CoinPrice.find({ type, date: { $lt: date } }, 'type price currency date')
-        .limit(1)
+        CoinPrice.find({ type, date: { $gt: yesterday } }, 'type price currency date')
         .sort('-date')
         .exec()
       );
     });
     const prices = await Promise.all(promises);
-    res.json(prices.map(res => res[0]));
+    res.json({ bitcoin: prices[0], ethereum: prices[1] });
   } catch(er) {
     res.send(er);
   }
