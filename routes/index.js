@@ -15,7 +15,10 @@ router.route('/prices').get( async (req, res) => {
       );
     });
     const prices = await Promise.all(promises);
-    res.json({ bitcoin: prices[0], ethereum: prices[1] });
+    const pricesObj = types.reduce((acc, val, count) => {
+      return Object.assign({}, acc, { [val]: prices[count] });
+    }, {});
+    res.json(pricesObj);
   } catch(er) {
     res.send(er);
   }
