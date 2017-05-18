@@ -6,7 +6,14 @@ const moment = require('moment');
 
 const yesterday = moment().subtract(1, 'day').toISOString();
 
-const query = `{"type": "bitcoin", "date": {"$gt": {"$date": "${yesterday}"} }}`;
+const query = JSON.stringify({
+  type: 'bitcoin',
+  date: {
+    $gt: {
+      $date: yesterday,
+    },
+  },
+});
 
 const host = 'https://api.mlab.com/api/1/databases/coinster/collections/prices';
 
