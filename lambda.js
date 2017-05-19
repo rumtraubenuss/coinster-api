@@ -15,8 +15,14 @@ const query = JSON.stringify({
   },
 });
 
+const fields = JSON.stringify({
+  _id: 0,
+  price_raw: 0,
+  currency: 0,
+});
+
 const host = 'https://api.mlab.com/api/1/databases/coinster/collections/prices';
 
-const url = `${host}?q=${query}&apiKey=${DB_API_KEY}`;
+const url = `${host}?f=${fields}&q=${query}&apiKey=${DB_API_KEY}`;
 
 fetch(url).then(res => res.json()).then(json => console.log({ bitcoin: json }));
