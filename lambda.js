@@ -1,6 +1,7 @@
 const fetch = require('node-fetch');
 const { DB_API_KEY } = process.env;
 const moment = require('moment');
+
 const yesterday = moment().subtract(1, 'day').toISOString();
 const host = 'https://api.mlab.com/api/1/databases/coinster/collections/prices';
 const fields = JSON.stringify({

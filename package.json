@@ -18,12 +18,12 @@
     "dotenv": "4.0.0"
   },
   "dependencies": {
-    "body-parser": "1.15.2",
+    "body-parser": "^1.17.2",
     "compression": "^1.6.2",
-    "cors": "2.8.1",
-    "express": "4.14.0",
+    "cors": "^2.8.3",
+    "express": "^4.15.3",
     "moment": "^2.18.1",
-    "mongoose": "^4.9.4",
+    "mongoose": "^4.10.1",
     "node-fetch": "^1.6.3"
   }
 }
