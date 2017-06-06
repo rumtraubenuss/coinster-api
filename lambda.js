@@ -30,10 +30,8 @@ function writeS3(data) {
     Key: 'prices.json',
     Body: JSON.stringify(data),
     ACL: 'public-read',
-    Metadata: {
-      'Content-Type': 'application/json',
-      'Cache-Control': 'max-age=600',
-    },
+    ContentType: 'application/json',
+    CacheControl: 'max-age=600',
   };
   s3.putObject(params, (err, data) => {
     if (err) { console.log(err) }
