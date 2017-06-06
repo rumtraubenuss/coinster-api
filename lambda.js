@@ -3,7 +3,7 @@ const { DB_API_KEY } = process.env;
 const moment = require('moment');
 const AWS = require('aws-sdk');
 
-const s3 = new AWS.S3();
+const s3 = new AWS.S3({ signatureVersion: 'v4' });
 const yesterday = moment().subtract(1, 'day').toISOString();
 const host = 'https://api.mlab.com/api/1/databases/coinster/collections/prices';
 const fields = JSON.stringify({
@@ -27,7 +27,7 @@ function getUrl(currency) {
 function writeS3(data) {
   const params = {
     Bucket: 'coinster.projectz.de',
-    Key: 'prices,json',
+    Key: 'prices.json',
     Body: JSON.stringify(data),
   };
   s3.putObject(params, (err, data) => {
