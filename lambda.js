@@ -1,7 +1,9 @@
 const fetch = require('node-fetch');
 const { DB_API_KEY } = process.env;
 const moment = require('moment');
+const AWS = require('aws-sdk');
 
+const s3 = new AWS.S3();
 const yesterday = moment().subtract(1, 'day').toISOString();
 const host = 'https://api.mlab.com/api/1/databases/coinster/collections/prices';
 const fields = JSON.stringify({
@@ -22,6 +24,18 @@ function getUrl(currency) {
   return `${host}?f=${fields}&q=${query}&apiKey=${DB_API_KEY}`;
 }
 
+function writeS3(data) {
+  const params = {
+    Bucket: 'coinster.projectz.de',
+    Key: 'prices,json',
+    Body: JSON.stringify(data),
+  };
+  s3.putObject(params, (err, data) => {
+    if (err) { console.log(err) }
+    else { console.log('Saved to S3') }
+  });
+}
+
 function getCurrencies(currencies) {
   const promises = currencies.sort().map(currency => (
     fetch(getUrl(currency)).then(res  => res.json())
@@ -33,6 +47,7 @@ function getCurrencies(currencies) {
         return Object.assign({}, acc, { [val]: prices[count] });
       }, {});
       console.log(pricesObj);
+      writeS3(pricesObj);
     });
 }
 
